@@ -1,62 +1,89 @@
 
 # ConnectPro – Customer Experience Platform
 
-A purple-themed customer support management application inspired by Amazon Connect.
+A customer support management application inspired by **Amazon Connect**, built with Python and Streamlit. ConnectPro handles omnichannel customer contacts (voice, chat, email), routes each contact to an available support agent, and reports on activity through an analytics dashboard.
 
-## Overview
+> **Note:** This is a local simulation. It does not connect to a live AWS Amazon Connect instance. It was built to understand the core ideas behind contact center platforms: contacts, routing, agent availability, and reporting.
 
-ConnectPro is a local customer experience simulation that demonstrates customer management, support agent management, contact handling, automatic agent routing and business analytics.
-
-## Technology Stack
-
-- Python
-- Streamlit
-- SQLite
-- Pandas
-- Plotly
 
 ## Features
 
-- Customer registration and directory
-- Support agent registration
-- Agent availability management
-- Customer contact registration
-- Voice, Chat and Email channels
-- Priority-based contact tracking
-- Automatic agent assignment
-- Contact status management
-- Interactive analytics dashboard
-- CSV report export
+- **Customer management**: register customers and browse a customer directory
+- **Agent management**: register support agents and set their availability
+- **Omnichannel contacts**: log voice, chat, and email contacts for any customer
+- **Priority-based tracking**: each contact carries a priority level
+- **Automatic agent routing**: new contacts are assigned to an available agent
+- **Contact lifecycle**: update contact status until the issue is resolved
+- **Sentiment analysis**: analyze customer messages to flag negative sentiment
+- **Analytics dashboard**: interactive Plotly charts for contact volume, channels, priorities, and agent workload
+- **CSV export**: download reports for further analysis
+
+## How It Maps to Amazon Connect
+
+| ConnectPro | Amazon Connect equivalent |
+|---|---|
+| Contact (voice / chat / email) | Contact / channel |
+| Agent availability | Agent status |
+| Automatic agent assignment | Routing profile and queue routing |
+| Priority levels | Queue priority |
+| Analytics dashboard | Real-time and historical metrics |
+| CSV export | Reporting and data export |
+
+## Architecture
+
+```
+┌─────────────┐      ┌──────────────────────┐      ┌────────────┐
+│  Streamlit  │ ───▶ │  Manager modules     │ ───▶ │   SQLite   │
+│  (app.py)   │      │  customer / agent /  │      │ (database) │
+└─────────────┘      │  contact / routing   │      └────────────┘
+       ▲             └──────────────────────┘
+       │                       │
+       └──── Plotly dashboards ◀┘
+```
+
+**Contact flow:** a contact is created → priority is set → sentiment is checked → the routing module finds an available agent → the contact is assigned → status is updated until resolved.
 
 ## Project Structure
 
-- app.py – Streamlit frontend
-- database.py – SQLite database configuration
-- customer_manager.py – Customer operations
-- agent_manager.py – Agent operations
-- contact_manager.py – Contact management
-- call_routing.py – Automatic agent routing
+| File | Purpose |
+|---|---|
+| `app.py` | Streamlit frontend and page navigation |
+| `database.py` | SQLite connection and table setup |
+| `customer_manager.py` | Customer operations |
+| `agent_manager.py` | Agent operations and availability |
+| `contact_manager.py` | Contact creation, status, and priority |
+| `call_routing.py` | Automatic agent routing |
+| `routing_engine.py` | Routing logic |
+| `sentiment_analyzer.py` | Sentiment analysis of customer messages |
+| `requirements.txt` | Python dependencies |
 
-## Installation
+## Tech Stack
 
-Install dependencies:
+Python · Streamlit · SQLite · Pandas · Plotly
+
+## Getting Started
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/likki-hi/ConnectPro-Customer-Experience-Platform.git
+cd ConnectPro-Customer-Experience-Platform
+
+# 2. Install dependencies
 pip install -r requirements.txt
-```
 
-Run the application:
-
-```bash
+# 3. Run the app
 python -m streamlit run app.py
 ```
 
-## Database
+The SQLite database is created locally on first run.
 
-SQLite stores customer, agent and contact records locally.
+## Future Improvements
 
-## Disclaimer
+- Skills-based routing (match contacts to agents by skill and language)
+- Queue wait times and service-level metrics
+- Unit tests for the routing logic
 
-This is a local simulation inspired by Amazon Connect. It does not connect to an actual AWS Amazon Connect instance.
- 
- ## Author : Likitha Kalal
+## Author
+
+**Likitha Kalal**
+GitHub: [@likki-hi](https://github.com/likki-hi)
